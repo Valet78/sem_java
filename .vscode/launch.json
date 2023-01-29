@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch dz",
+            "request": "launch",
+            "mainClass": "sem_2.dz",
+            "projectName": "Java_3efdee27"
+        },
+        {
+            "type": "java",
+            "name": "Launch zad",
+            "request": "launch",
+            "mainClass": "sem_2.zad",
+            "projectName": "Java_3efdee27"
+        },
+        {
+            "type": "java",
+            "name": "Launch zad_dop",
+            "request": "launch",
+            "mainClass": "sem_1.zad_dop",
+            "projectName": "Java_3efdee27"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
