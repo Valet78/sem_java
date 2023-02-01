@@ -8,6 +8,13 @@
             "type": "java",
             "name": "Launch dz",
             "request": "launch",
+            "mainClass": "sem_3.dz",
+            "projectName": "Java_5cf5df8f"
+        },
+        {
+            "type": "java",
+            "name": "Launch dz",
+            "request": "launch",
             "mainClass": "sem_2.dz",
             "projectName": "Java_3efdee27"
         },
