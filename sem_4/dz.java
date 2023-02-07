@@ -5,7 +5,7 @@
  * Поле ограничено размером 30х30 в методе SetMainParam() 
  *  
  */
-package sem4;
+package sem_4;
 
 import java.util.Random;
 import java.util.Scanner;
