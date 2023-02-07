@@ -7,8 +7,8 @@ public class Point2d {
 
     // Конвертация позиции в массиве (поле) в строку для очереди
     public String GetStr(int inY, int inX){
-        this.x = inY;
-        this.y = inX;
+        this.x = inX;
+        this.y = inY;
         return Integer.toString(y) + ":" + Integer.toString(x);
     }
 

@@ -39,7 +39,7 @@ public class dz {
             // PrintMass(fieldWork);              
             StepWave();
             SetRoute();            
-            // PrintMass(fieldWork); 
+            PrintMass(fieldWork); 
             System.out.println("\nПоиск маршрута...\n");
             PrintCharMass(fieldChar);           
 
@@ -62,68 +62,92 @@ public class dz {
             }
         }
         // Найдем кратчайший путь
-        if(fieldWork[exitY1 - 1][exitX1 - 1] <= fieldWork[exitY2 - 1][exitX2 - 1]){
-            indY = exitY1 - 1;
-            indX = exitX1 - 1;
+        int[] sWay = ShortWay(exitY1 - 1, exitX1 - 1, exitY2 - 1, exitX2 - 1);
+        if(sWay[0] != -1){
+            indY = sWay[0];
+            indX = sWay[1];
+
+            temp = fieldWork[indY][indX];
+            fieldChar[indY][indX] = 'F';        
             
-        } else{
-            indY = exitY2 - 1;
-            indX = exitX2 - 1;
+            while(temp > 1){
+                // 1 step
+                if(indY - 1 >= 0){
+                    if(fieldWork[indY - 1][indX] == temp - 1){
+                        indY--;
+                        temp--;
+                        fieldChar[indY][indX] = '*';
+                    } 
+                }
+                // 2 step
+                if(indX + 1 < sizeX){
+                    if(fieldWork[indY][indX + 1] == temp - 1){
+                        indX++;
+                        temp--;
+                        fieldChar[indY][indX] = '*';
+                    } 
+                }
+                // 3 step
+                if(indY + 1 < sizeY){
+                    if(fieldWork[indY + 1][indX] == temp - 1){
+                        indY++;
+                        temp--;
+                        fieldChar[indY][indX] = '*';
+                    } 
+                }
+                // 4 step
+                if(indX - 1 >= 0){
+                    if(fieldWork[indY][indX - 1] == temp - 1){
+                        indX--;
+                        temp--;
+                        fieldChar[indY][indX] = '*';
+                    } 
+                }    
+            }
+            fieldChar[pointY - 1][pointX - 1] = 'S';
         }
-        temp = fieldWork[indY][indX];
-        fieldChar[indY][indX] = 'F';        
-        
-        while(temp > 1){
-            // 1 step
-            if(indY - 1 >= 0){
-                if(fieldWork[indY - 1][indX] == temp - 1){
-                    indY--;
-                    temp--;
-                    fieldChar[indY][indX] = '*';
-                } 
-            }
-            // 2 step
-            if(indX + 1 < sizeX){
-                if(fieldWork[indY][indX + 1] == temp - 1){
-                    indX++;
-                    temp--;
-                    fieldChar[indY][indX] = '*';
-                } 
-            }
-            // 3 step
-            if(indY + 1 < sizeY){
-                if(fieldWork[indY + 1][indX] == temp - 1){
-                    indY++;
-                    temp--;
-                    fieldChar[indY][indX] = '*';
-                } 
-            }
-            // 4 step
-            if(indX - 1 >= 0){
-                if(fieldWork[indY][indX - 1] == temp - 1){
-                    indX--;
-                    temp--;
-                    fieldChar[indY][indX] = '*';
-                } 
-            }    
+        else System.out.println("Маршрут не был найден!");
+    }
+
+    // Проверка наличия короткого пути
+    static int[] ShortWay(int inY1, int inX1, int inY2, int inX2){
+        int[] temp = new int[2];
+        int res1 = fieldWork[inY1][inX1];
+        int res2 = fieldWork[inY2][inX2];
+        if(res1 == -2 && res2 == -2) temp[0] = -1;
+        else if(res1 == -2 && res2 != -2){
+            temp[0] = inY2;
+            temp[1] = inX2;
         }
-        fieldChar[pointY - 1][pointX - 1] = 'S';
+        else if(res1 != -2 && res2 == -2){
+            temp[0] = inY1;
+            temp[1] = inX1;
+        } else {
+            if(res1 <= res2){
+                temp[0] = inY1;
+                temp[1] = inX1;
+            }
+            else {
+                temp[0] = inY2;
+                temp[1] = inX2;
+            }
+        }
+        return temp;
     }
     
     // Отработка ходов методом Волны
-    static void StepWave(){
-        int[] tempInt = new int[2];               
+    static void StepWave(){                     
         int realY = 0, realX = 0;
-        boolean newStep = true;
+        boolean newStep = true;        
         
-        String tempStr = AdressConvToStr(pointY-1, pointX-1);  // установка начальной позиции в очередь
+        String tempStr = ppt.GetStr(pointY-1, pointX-1);  // установка начальной позиции в очередь
         queueStep.offer(tempStr);        
         while(queueStep.size() != 0){
             tempStr = queueStep.peek();
             if(tempStr == null) break;
-            tempInt = AdresConvToInt(tempStr); // получаем координаты из очереди
-            realY = tempInt[0];
-            realX = tempInt[1];
+            // получаем координаты из очереди
+            realY = ppt.GetY(tempStr);
+            realX = ppt.GetX(tempStr);
 
             // 1 step
             newStep = (realY - 1 >= 0) ? ValidStep(realY - 1, realX) : false;
@@ -156,24 +180,8 @@ public class dz {
     // Ход
     static void StepAdd(int oldY, int oldX, int newY, int newX){
         fieldWork[newY][newX] = fieldWork[oldY][oldX] + 1;
-        // String tempStr = AdressConvToStr(newY, newX);
-        // queueStep.offer(tempStr);   // заносим координаты точки хода
-        queueStep.offer(ppt.GetStr(newY, newX));   // заносим координаты точки хода
-
-    }
-
-    // Конвертация позиции в массиве (поле) в строку для очереди
-    static String AdressConvToStr(int y, int x){
-        return Integer.toString(y) + ":" + Integer.toString(x);
-    }
-
-    // Конвертация адреса из очереди в число
-    static int[] AdresConvToInt(String adr){
-        int[] temp = new int[2];
-        String[] sst = adr.split(":");
-        temp[0] = Integer.parseInt(sst[0]);
-        temp[1] = Integer.parseInt(sst[1]);
-        return temp;
+        String tempStr = ppt.GetStr(newY, newX);
+        queueStep.offer(tempStr);   // заносим координаты точки хода
     }
 
     // Установка начальных параметров
