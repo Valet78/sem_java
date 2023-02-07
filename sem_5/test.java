@@ -7,5 +7,6 @@ public class test {
         System.out.println(point.GetStr(25, 13));
         System.out.printf("y = %d x = %d\n", point.GetY("12:42"), point.GetX("12:42") );
         
+        
     }
 }

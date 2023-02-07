@@ -24,7 +24,7 @@ public class dz {
     static Queue<String> queueStep = new LinkedList<String>();
     static Point2d ppt = new Point2d();
     
-    
+    public int W = 0;
     public static void main(String[] args) {
         
         if(SetMainParam()){
@@ -52,9 +52,9 @@ public class dz {
         int indY = 0, indX = 0;
         int temp = 0;
         // изменим размер массива
-        char [][] arr = new char[sizeY][sizeX];
-        fieldChar=arr;
-        arr=null;
+        char[][] arr = new char[sizeY][sizeX];
+        fieldChar = arr;
+        arr = null;
         // Предварительное заполнение поля
         for(int i=0; i < sizeY; i++ ){
             for(int k = 0; k < sizeX; k++){

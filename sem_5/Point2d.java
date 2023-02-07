@@ -27,9 +27,5 @@ public class Point2d {
 
     private void strMass(){
         this.strIn = this.sst.split(":");
-    }
-
-
-
-    
+    }    
 }
