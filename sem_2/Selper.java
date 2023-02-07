@@ -18,7 +18,5 @@ public class Selper {
             this.value = intIn;
         }        
 
-        public Selper(){
-
-        }
+        public Selper(){ }
 }
