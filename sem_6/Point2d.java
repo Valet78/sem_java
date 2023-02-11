@@ -5,6 +5,16 @@ public class Point2d {
     private String sst = "0:0";
     private String[] strIn = new String[2];
 
+    Point2d(){
+        x = 0;
+        y = 0;
+    }
+    
+    Point2d(int inY, int inX){
+        this.x = inX;
+        this.y = inY;
+    }
+
     // Конвертация позиции в массиве (поле) в строку для очереди
     public String GetStr(int inY, int inX){
         this.x = inX;
